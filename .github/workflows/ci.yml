@@ -33,7 +33,7 @@ jobs:
   publish:
     name: Publish to Erila Maven
     runs-on: ubuntu-latest
-    needs: build
+    needs: compile
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
 
     steps:
