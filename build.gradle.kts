@@ -50,45 +50,17 @@ subprojects {
     publishing {
         repositories {
             maven {
-                name = "maven-deploy"
-                url = uri(
-                    System.getenv("MAVEN_DEPLOY_URL")
-                        ?: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-                )
+                name = "erila"
+                val repoType = if (version.toString().endsWith("SNAPSHOT")) "snapshots" else "releases"
+                url = uri("http://api.erilanetwork.com:8080/$repoType")
+                isAllowInsecureProtocol = true
                 credentials {
-                    username = System.getenv("MAVEN_DEPLOY_USERNAME") ?: "username"
-                    password = System.getenv("MAVEN_DEPLOY_PASSWORD") ?: "password"
-                }
-            }
-        }
-
-        publications {
-            create<MavenPublication>("maven") {
-                from(components["java"])
-                pom {
-                    packaging = "jar"
-                    url.set("https://github.com/CloudburstMC/Protocol")
-
-                    scm {
-                        connection.set("scm:git:git://github.com/CloudburstMC/Protocol.git")
-                        developerConnection.set("scm:git:ssh://github.com/CloudburstMC/Protocol.git")
-                        url.set("https://github.com/CloudburstMC/Protocol")
-                    }
-
-                    licenses {
-                        license {
-                            name.set("The Apache Software License, Version 2.0")
-                            url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
-                        }
-                    }
-
-                    developers {
-                        developer {
-                            name.set("CloudburstMC Team")
-                            organization.set("CloudburstMC")
-                            organizationUrl.set("https://github.com/CloudburstMC")
-                        }
-                    }
+                    username = providers.gradleProperty("erilaUsername")
+                        .orElse(providers.environmentVariable("ERILA_REPO_USERNAME"))
+                        .orNull
+                    password = providers.gradleProperty("erilaPassword")
+                        .orElse(providers.environmentVariable("ERILA_REPO_PASSWORD"))
+                        .orNull
                 }
             }
         }

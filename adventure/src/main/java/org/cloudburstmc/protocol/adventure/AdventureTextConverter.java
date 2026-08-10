@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;
-import static org.cloudburstmc.protocol.common.util.Preconditions.checkArgument;
 
 public class AdventureTextConverter implements TextConverter {
 
