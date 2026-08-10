@@ -23,7 +23,7 @@ subprojects {
         plugin(rootProject.libs.plugins.lombok.get().pluginId)
     }
 
-    group = "org.cloudburstmc.protocol"
+    group = "com.erilanetwork.protocol"
 
     tasks {
         compileJava {
